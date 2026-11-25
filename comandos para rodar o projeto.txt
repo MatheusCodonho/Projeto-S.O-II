@@ -1,0 +1,2 @@
+npm install (caso as dependências não estejam atualizadas)
+npm run dev: vai abrir em algum localhost: 3000, 3001, 3002.
