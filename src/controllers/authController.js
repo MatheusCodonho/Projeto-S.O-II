@@ -36,12 +36,24 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
-  const { email, password } = req.body;
+  const { email, password, mfaToken } = req.body;
   const user = users.find(u => u.email === email);
   if (!user || !(await user.verifyPassword(password))) {
     log('LOGIN', user ? user.id : null, req.ip, 'failure');
     return res.status(401).json({ error: 'Credenciais inválidas' });
   }
+
+  // Se usuário tem MFA habilitado, exige token
+  if (user.mfaEnabled) {
+    if (!mfaToken) {
+      return res.status(401).json({ error: 'MFA_TOKEN_REQUIRED', message: 'Autenticação multifator necessária' });
+    }
+    if (!user.verifyMFAToken(mfaToken)) {
+      log('LOGIN_MFA_FAILURE', user.id, req.ip, 'failure');
+      return res.status(401).json({ error: 'Token MFA inválido' });
+    }
+  }
+
   const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, jwtSecret, { expiresIn: jwtExpiresIn });
   log('LOGIN', user.id, req.ip, 'success');
   return res.json({ token, user: user.toJSON() });
@@ -80,4 +92,58 @@ function deleteUser(req, res) {
   res.status(204).send();
 }
 
-module.exports = { register, login, logout, listUsers, deleteUser };
+// MFA endpoints
+async function mfaSetup(req, res) {
+  const user = users.find(u => u.id === req.user.id);
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+  const { secret, otpauthUrl } = user.generateMFASecret();
+  persist();
+
+  // Gera QR code
+  const QRCode = require('qrcode');
+  const qrCodeDataUrl = await QRCode.toDataURL(otpauthUrl);
+
+  res.json({ secret, otpauthUrl, qrCode: qrCodeDataUrl });
+}
+
+async function mfaEnable(req, res) {
+  const user = users.find(u => u.id === req.user.id);
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+  const { token } = req.body;
+  if (!token) return res.status(400).json({ error: 'Token MFA é obrigatório' });
+
+  // Usa método que verifica token mesmo com mfaEnabled=false (para setup inicial)
+  if (user.verifyMFATokenSetup(token)) {
+    user.mfaEnabled = true;
+    persist();
+    log('MFA_ENABLE', user.id, req.ip, 'success');
+    return res.json({ message: 'MFA habilitado com sucesso', mfaEnabled: true });
+  }
+  return res.status(400).json({ error: 'Token MFA inválido' });
+}
+
+async function mfaDisable(req, res) {
+  const user = users.find(u => u.id === req.user.id);
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+  const { password } = req.body;
+  if (!password || !(await user.verifyPassword(password))) {
+    return res.status(401).json({ error: 'Senha incorreta' });
+  }
+
+  user.disableMFA();
+  persist();
+  log('MFA_DISABLE', user.id, req.ip, 'success');
+  return res.json({ message: 'MFA desabilitado com sucesso', mfaEnabled: false });
+}
+
+async function mfaStatus(req, res) {
+  const user = users.find(u => u.id === req.user.id);
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+  res.json({ mfaEnabled: user.mfaEnabled });
+}
+
+module.exports = { register, login, logout, listUsers, deleteUser, mfaSetup, mfaEnable, mfaDisable, mfaStatus };

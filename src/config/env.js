@@ -20,4 +20,6 @@ module.exports = {
   bcryptRounds: parseInt(process.env.BCRYPT_ROUNDS, 10) || 12,
   databaseUrl: process.env.DATABASE_URL || 'sqlite:./data/app.db',
   isProduction: process.env.NODE_ENV === 'production',
+  corsOrigin: process.env.CORS_ORIGIN,
+  mfaIssuer: process.env.MFA_ISSUER || 'GestaoProjetosSeguro',
 };
