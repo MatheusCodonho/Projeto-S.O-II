@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { register, login, logout, listUsers, deleteUser, mfaSetup, mfaEnable, mfaDisable, mfaStatus } = require('../controllers/authController');
+const { register, login, logout, listUsers, deleteUser, updateUser, mfaSetup, mfaEnable, mfaDisable, mfaStatus } = require('../controllers/authController');
 const { authenticate, optionalAuth, authorize } = require('../middleware/auth');
 const { ROLES } = require('../models/User');
 
@@ -16,6 +16,7 @@ router.post('/mfa/disable', authenticate, mfaDisable);
 
 // Gerenciamento de usuários (apenas ADMIN)
 router.get('/users', authenticate, authorize(ROLES.ADMIN), listUsers);
+router.put('/users/:id', authenticate, authorize(ROLES.ADMIN), updateUser);
 router.delete('/users/:id', authenticate, authorize(ROLES.ADMIN), deleteUser);
 
 module.exports = router;

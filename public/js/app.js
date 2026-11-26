@@ -47,14 +47,32 @@ async function register() {
 }
 
 async function login() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const mfaToken = document.getElementById('loginMfaToken') ? document.getElementById('loginMfaToken').value : '';
+
+  const body = { email, password };
+  if (mfaToken) body.mfaToken = mfaToken;
+
   const res = await fetch(API + '/api/auth/login', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: document.getElementById('loginEmail').value,
-      password: document.getElementById('loginPassword').value
-    })
+    body: JSON.stringify(body)
   });
   const data = await res.json();
+
+  // Se MFA for exigido, mostrar campo para token
+  if (res.status === 401 && data.error === 'MFA_TOKEN_REQUIRED') {
+    if (!document.getElementById('loginMfaToken')) {
+      const input = document.createElement('input');
+      input.id = 'loginMfaToken';
+      input.placeholder = 'Código MFA (6 dígitos)';
+      input.type = 'text';
+      document.getElementById('formLogin').insertBefore(input, document.getElementById('formLogin').querySelector('button'));
+      showMsg('authMsg', 'Digite o código MFA do seu app autenticador', false);
+    }
+    return;
+  }
+
   if (res.ok) {
     token = data.token;
     currentUser = data.user;
@@ -94,6 +112,77 @@ async function loadDashboard() {
   document.getElementById('statProgress').textContent = data.tasksByStatus.IN_PROGRESS;
   document.getElementById('statDone').textContent = data.tasksByStatus.COMPLETED;
   if (data.totalUsers !== undefined) document.getElementById('statUsers').textContent = data.totalUsers;
+  loadMfaStatus();
+}
+
+async function loadMfaStatus() {
+  const res = await fetch(API + '/api/auth/mfa/status', { headers: authHeaders() });
+  const data = await res.json();
+  const text = document.getElementById('mfaStatusText');
+  const enableBtn = document.getElementById('mfaEnableBtn');
+  const disableBtn = document.getElementById('mfaDisableBtn');
+  if (data.mfaEnabled) {
+    text.textContent = '✅ MFA está HABILITADO para sua conta.';
+    enableBtn.classList.add('hidden');
+    disableBtn.classList.remove('hidden');
+  } else {
+    text.textContent = '⚠️ MFA está DESABILITADO. Recomendamos habilitar.';
+    enableBtn.classList.remove('hidden');
+    disableBtn.classList.add('hidden');
+  }
+}
+
+async function mfaSetup() {
+  const res = await fetch(API + '/api/auth/mfa/setup', { method: 'POST', headers: authHeaders() });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('mfaQrCode').src = data.qrCode;
+    document.getElementById('mfaSecret').textContent = data.secret;
+    document.getElementById('mfaModal').classList.remove('hidden');
+  } else {
+    alert(data.error || 'Erro ao configurar MFA');
+  }
+}
+
+function closeMfaModal() { document.getElementById('mfaModal').classList.add('hidden'); }
+
+async function mfaEnable() {
+  const token = document.getElementById('mfaTokenInput').value;
+  const res = await fetch(API + '/api/auth/mfa/enable', {
+    method: 'POST', headers: authHeaders(),
+    body: JSON.stringify({ token })
+  });
+  const data = await res.json();
+  if (res.ok) {
+    closeMfaModal();
+    loadMfaStatus();
+    alert('MFA habilitado com sucesso!');
+  } else {
+    alert(data.error || 'Token inválido');
+  }
+}
+
+function mfaDisablePrompt() {
+  document.getElementById('mfaDisablePassword').value = '';
+  document.getElementById('mfaDisableModal').classList.remove('hidden');
+}
+function closeMfaDisableModal() { document.getElementById('mfaDisableModal').classList.add('hidden'); }
+
+async function mfaDisable() {
+  const password = document.getElementById('mfaDisablePassword').value;
+  if (!password) { alert('Digite sua senha'); return; }
+  const res = await fetch(API + '/api/auth/mfa/disable', {
+    method: 'POST', headers: authHeaders(),
+    body: JSON.stringify({ password })
+  });
+  if (res.ok) {
+    closeMfaDisableModal();
+    loadMfaStatus();
+    alert('MFA desabilitado.');
+  } else {
+    const d = await res.json();
+    alert(d.error || 'Erro ao desabilitar');
+  }
 }
 
 // ---------- Projects ----------
@@ -108,6 +197,7 @@ async function loadProjects() {
       <p>${escapeHtml(p.description || '')}</p>
       <small>Criado em: ${new Date(p.createdAt).toLocaleString('pt-BR')}</small>
       <div style="margin-top:.5rem">
+        <button onclick="openProjectEditModal(${p.id}, '${escapeHtml(p.name)}', '${escapeHtml(p.description || '')}')">Editar</button>
         <button onclick="deleteProject(${p.id})" class="danger-btn">Excluir</button>
       </div>
     </div>
@@ -132,6 +222,33 @@ async function deleteProject(id) {
   const res = await fetch(API + '/api/projects/' + id, { method: 'DELETE', headers: authHeaders() });
   if (res.ok) { loadProjects(); loadDashboard(); }
   else { const d = await res.json(); alert(d.error); }
+}
+
+function openProjectEditModal(id, name, desc) {
+  document.getElementById('editProjectId').value = id;
+  document.getElementById('editProjectName').value = name;
+  document.getElementById('editProjectDesc').value = desc;
+  document.getElementById('editProjectModal').classList.remove('hidden');
+}
+function closeProjectEditModal() { document.getElementById('editProjectModal').classList.add('hidden'); }
+
+async function saveProjectEdit() {
+  const id = document.getElementById('editProjectId').value;
+  const res = await fetch(API + '/api/projects/' + id, {
+    method: 'PUT', headers: authHeaders(),
+    body: JSON.stringify({
+      name: document.getElementById('editProjectName').value,
+      description: document.getElementById('editProjectDesc').value
+    })
+  });
+  if (res.ok) {
+    closeProjectEditModal();
+    loadProjects();
+    alert('Projeto atualizado!');
+  } else {
+    const d = await res.json();
+    alert(d.error || 'Erro ao editar');
+  }
 }
 
 // ---------- Tasks ----------
@@ -231,10 +348,41 @@ async function loadUsers() {
       <p>${escapeHtml(u.email)}</p>
       <small>Criado em: ${new Date(u.createdAt).toLocaleString('pt-BR')} | ID: ${u.id}</small>
       <div style="margin-top:.5rem">
+        <button onclick="openEditModal(${u.id}, '${escapeHtml(u.name)}', '${escapeHtml(u.email)}', '${u.role}')">Editar</button>
         <button onclick="deleteUser(${u.id})" class="danger-btn" ${u.id === currentUser.id ? 'disabled' : ''}>Excluir</button>
       </div>
     </div>
   `).join('');
+}
+
+function openEditModal(id, name, email, role) {
+  document.getElementById('editUserId').value = id;
+  document.getElementById('editUserName').value = name;
+  document.getElementById('editUserEmail').value = email;
+  document.getElementById('editUserRole').value = role;
+  document.getElementById('editUserModal').classList.remove('hidden');
+}
+function closeEditModal() { document.getElementById('editUserModal').classList.add('hidden'); }
+
+async function saveUserEdit() {
+  const id = document.getElementById('editUserId').value;
+  const res = await fetch(API + '/api/auth/users/' + id, {
+    method: 'PUT', headers: authHeaders(),
+    body: JSON.stringify({
+      name: document.getElementById('editUserName').value,
+      email: document.getElementById('editUserEmail').value,
+      password: document.getElementById('editUserPassword').value || null,
+      role: document.getElementById('editUserRole').value
+    })
+  });
+  if (res.ok) {
+    closeEditModal();
+    loadUsers();
+    alert('Usuário atualizado!');
+  } else {
+    const d = await res.json();
+    alert(d.error || 'Erro ao editar');
+  }
 }
 
 async function deleteUser(id) {
@@ -260,7 +408,7 @@ async function createUser() {
     })
   });
   const data = await res.json();
-  if (res.ok) showMsg('userMsg', 'Usuário criado com perfil ' + data.role + '!');
+  if (res.ok) { showMsg('userMsg', 'Usuário criado com perfil ' + data.role + '!'); loadUsers(); }
   else showMsg('userMsg', data.error || 'Erro', true);
 }
 

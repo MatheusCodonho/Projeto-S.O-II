@@ -1,12 +1,16 @@
 const jwt = require('jsonwebtoken');
 const { User, ROLES } = require('../models/User');
-const { users, nextId, persist } = require('../data/store');
-const { jwtSecret, jwtExpiresIn } = require('../config/env');
-const { auditLogs } = require('../data/store');
+const { users, nextId, persist, auditLogs } = require('../data/store');
+const { jwtSecret, jwtExpiresIn, isProduction } = require('../config/env');
 
 function log(action, userId, ip, result, details) {
   auditLogs.push({ id: auditLogs.length + 1, action, userId, ip, result, details, timestamp: new Date().toISOString() });
-  persist();
+  // Usa persistSync em dev, persist (async) em produção
+  if (isProduction) {
+    persist(); // fire-and-forget em produção
+  } else {
+    require('../data/store').persistSync();
+  }
 }
 
 async function register(req, res) {
@@ -92,6 +96,50 @@ function deleteUser(req, res) {
   res.status(204).send();
 }
 
+async function updateUser(req, res) {
+  try {
+    const id = parseInt(req.params.id);
+    const index = users.findIndex(u => u.id === id);
+    if (index === -1) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+    const target = users[index];
+    const { name, email, password, role } = req.body;
+
+    // Se estiver rebaixando um ADMIN, verificar se sobra pelo menos 1 ADMIN
+    if (target.role === ROLES.ADMIN && role && role !== ROLES.ADMIN) {
+      const adminCount = users.filter(u => u.role === ROLES.ADMIN).length;
+      if (adminCount <= 1) {
+        return res.status(400).json({ error: 'Não é possível remover o papel de administrador do último admin' });
+      }
+    }
+
+    if (email && email !== target.email) {
+      if (users.find(u => u.email === email)) {
+        return res.status(409).json({ error: 'Email já cadastrado' });
+      }
+      target.email = email;
+    }
+
+    if (name) target.name = name;
+    if (role && [ROLES.ADMIN, ROLES.MANAGER, ROLES.USER].includes(role)) {
+      target.role = role;
+    }
+
+    if (password) {
+      if (password.length < 8) {
+        return res.status(400).json({ error: 'Senha deve ter ao menos 8 caracteres' });
+      }
+      target.passwordHash = await User.hashPassword(password);
+    }
+
+    persist();
+    log('UPDATE_USER', req.user.id, req.ip, 'success', { updatedUserId: id });
+    return res.json(target.toJSON());
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+}
+
 // MFA endpoints
 async function mfaSetup(req, res) {
   const user = users.find(u => u.id === req.user.id);
@@ -146,4 +194,4 @@ async function mfaStatus(req, res) {
   res.json({ mfaEnabled: user.mfaEnabled });
 }
 
-module.exports = { register, login, logout, listUsers, deleteUser, mfaSetup, mfaEnable, mfaDisable, mfaStatus };
+module.exports = { register, login, logout, listUsers, deleteUser, updateUser, mfaSetup, mfaEnable, mfaDisable, mfaStatus };

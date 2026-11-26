@@ -1,6 +1,7 @@
 const Project = require('../models/Project');
 const { projects, auditLogs, nextId, persist } = require('../data/store');
 const { ROLES } = require('../models/User');
+const { isProduction } = require('../config/env');
 
 function log(action, userId, ip, result, details) {
   auditLogs.push({
@@ -12,7 +13,11 @@ function log(action, userId, ip, result, details) {
     details,
     timestamp: new Date().toISOString()
   });
-  persist();
+  if (isProduction) {
+    persist();
+  } else {
+    require('../data/store').persistSync();
+  }
 }
 
 const projectController = {

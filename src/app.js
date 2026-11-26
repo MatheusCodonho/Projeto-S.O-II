@@ -14,14 +14,7 @@ const app = express();
 
 // Security headers
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", 'data:'],
-    },
-  },
+  contentSecurityPolicy: false,
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
   frameguard: { action: 'deny' },
   xssFilter: true,
@@ -31,9 +24,9 @@ app.use(helmet({
 
 // CORS
 app.use(cors({
-  origin: corsOrigin || (isProduction ? false : '*'),
+  origin: corsOrigin || (isProduction ? process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '*' : '*'),
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 

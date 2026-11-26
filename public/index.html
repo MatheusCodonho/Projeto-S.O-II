@@ -55,6 +55,12 @@
         <div class="stat-card"><h3>Concluídas</h3><p id="statDone">0</p></div>
         <div class="stat-card" id="statUsersCard" class="hidden"><h3>Usuários</h3><p id="statUsers">0</p></div>
       </div>
+      <div class="card" style="margin-top:1rem">
+        <h3>🔐 Autenticação Multifator (MFA)</h3>
+        <p id="mfaStatusText">Carregando...</p>
+        <button id="mfaEnableBtn" onclick="mfaSetup()" class="hidden">Habilitar MFA</button>
+        <button id="mfaDisableBtn" onclick="mfaDisablePrompt()" class="danger-btn hidden">Desabilitar MFA</button>
+      </div>
       <button onclick="loadDashboard()">Atualizar</button>
     </section>
 
@@ -70,6 +76,18 @@
       </div>
       <div id="projectsList"></div>
     </section>
+
+    <!-- EDIT PROJECT MODAL -->
+    <div id="editProjectModal" class="modal hidden">
+      <div class="card">
+        <h3>Editar Projeto</h3>
+        <input type="hidden" id="editProjectId" />
+        <input id="editProjectName" placeholder="Nome do projeto" />
+        <textarea id="editProjectDesc" placeholder="Descrição"></textarea>
+        <button onclick="saveProjectEdit()">Salvar</button>
+        <button onclick="closeProjectEditModal()" class="danger-btn">Cancelar</button>
+      </div>
+    </div>
 
     <!-- TASKS VIEW -->
     <section id="view-tasks" class="view hidden">
@@ -111,6 +129,25 @@
       <button onclick="loadUsers()" style="margin-top:1rem">Atualizar Lista</button>
     </section>
 
+    <!-- EDIT USER MODAL -->
+    <div id="editUserModal" class="modal hidden">
+      <div class="card">
+        <h3>Editar Usuário</h3>
+        <input type="hidden" id="editUserId" />
+        <input id="editUserName" placeholder="Nome" />
+        <input id="editUserEmail" type="email" placeholder="Email" />
+        <input id="editUserPassword" type="password" placeholder="Nova senha (opcional)" />
+        <select id="editUserRole">
+          <option value="USER">USER</option>
+          <option value="MANAGER">MANAGER</option>
+          <option value="ADMIN">ADMIN</option>
+        </select>
+        <button onclick="saveUserEdit()">Salvar</button>
+        <button onclick="closeEditModal()" class="danger-btn">Cancelar</button>
+      </div>
+    </div>
+
+
     <!-- LOGS VIEW -->
     <section id="view-logs" class="view hidden">
       <h2>Logs de Auditoria</h2>
@@ -119,6 +156,29 @@
     </section>
   </main>
 
+  <!-- MFA MODAL -->
+  <div id="mfaModal" class="modal hidden">
+    <div class="card">
+      <h3>Habilitar MFA</h3>
+      <p>Escaneie o QR Code com seu app autenticador:</p>
+      <img id="mfaQrCode" src="" alt="QR Code MFA" style="display:block;margin:1rem auto;max-width:200px" />
+      <p><small>Segredo: <code id="mfaSecret"></code></small></p>
+      <input id="mfaTokenInput" placeholder="Código de 6 dígitos" />
+      <button onclick="mfaEnable()">Confirmar</button>
+      <button onclick="closeMfaModal()" class="danger-btn">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MFA DISABLE MODAL -->
+  <div id="mfaDisableModal" class="modal hidden">
+    <div class="card">
+      <h3>Desabilitar MFA</h3>
+      <p>Digite sua senha para confirmar:</p>
+      <input id="mfaDisablePassword" type="password" placeholder="Senha" />
+      <button onclick="mfaDisable()">Confirmar</button>
+      <button onclick="closeMfaDisableModal()" class="danger-btn">Cancelar</button>
+    </div>
+  </div>
   <script src="/js/app.js"></script>
 </body>
 </html>
