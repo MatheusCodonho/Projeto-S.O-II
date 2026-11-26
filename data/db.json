@@ -1,0 +1,1174 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "admin",
+      "email": "admin@admin",
+      "passwordHash": "$2a$10$yJGeWrnjNGsfirzE5T9yf.kOjiTKCPqsHBf8H5h8X62Hx2RVtQ0/G",
+      "role": "ADMIN",
+      "createdAt": "2026-11-25T22:32:46.427Z",
+      "mfaSecret": null,
+      "mfaEnabled": false
+    },
+    {
+      "id": 2,
+      "name": "user",
+      "email": "user@user",
+      "passwordHash": "$2a$10$b0faglb3CkxK1r2fVOObC.Dzqy5W57YOD9321YFqr/JokRfw7pWW6",
+      "role": "USER",
+      "createdAt": "2026-11-25T23:19:09.990Z",
+      "mfaSecret": "MZ2ES432JERTSWCBIAXWE4B2NAZG4Z2F",
+      "mfaEnabled": true
+    },
+    {
+      "id": 3,
+      "name": "manager",
+      "email": "manager@manager",
+      "passwordHash": "$2a$10$29LmSUFkNR5M2pu4FoaiZ.Wv9R4zbcqpFPqYT7bYG/zTNfTlVNqn6",
+      "role": "MANAGER",
+      "createdAt": "2026-11-25T23:35:36.194Z",
+      "mfaEnabled": false
+    },
+    {
+      "id": 4,
+      "name": "user2",
+      "email": "user2@user2",
+      "passwordHash": "$2a$10$xyaVdAT.gsBhiH3AMhmxJORmtIDJphNQewHAsqodjHb9wBKMfBhbS",
+      "role": "USER",
+      "createdAt": "2026-11-25T23:51:24.425Z",
+      "mfaEnabled": false
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Projeto Admin ",
+      "description": "admin",
+      "ownerId": 1,
+      "createdAt": "2026-11-25T23:35:10.341Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "projectId": 1,
+      "title": "tarefa 1",
+      "description": "tarefa 1",
+      "assignedTo": 1,
+      "status": "COMPLETED",
+      "createdAt": "2026-11-25T22:34:27.993Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": 1,
+      "action": "REGISTER",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T22:32:46.427Z"
+    },
+    {
+      "id": 2,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T22:32:57.667Z"
+    },
+    {
+      "id": 3,
+      "action": "CREATE_PROJECT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T22:33:32.879Z"
+    },
+    {
+      "id": 4,
+      "action": "CREATE_TASK",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T22:34:27.993Z"
+    },
+    {
+      "id": 5,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T22:40:41.492Z"
+    },
+    {
+      "id": 6,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T22:40:52.602Z"
+    },
+    {
+      "id": 7,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T22:42:15.820Z"
+    },
+    {
+      "id": 8,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T22:43:34.073Z"
+    },
+    {
+      "id": 9,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T22:50:14.902Z"
+    },
+    {
+      "id": 10,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T22:50:19.921Z"
+    },
+    {
+      "id": 11,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T22:52:45.596Z"
+    },
+    {
+      "id": 12,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T22:53:07.831Z"
+    },
+    {
+      "id": 13,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T22:53:08.579Z"
+    },
+    {
+      "id": 14,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T22:53:08.726Z"
+    },
+    {
+      "id": 15,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:02:27.572Z"
+    },
+    {
+      "id": 16,
+      "action": "UPDATE_USER",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "updatedUserId": 1
+      },
+      "timestamp": "2026-11-25T23:02:43.140Z"
+    },
+    {
+      "id": 17,
+      "action": "UPDATE_USER",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "updatedUserId": 1
+      },
+      "timestamp": "2026-11-25T23:02:49.184Z"
+    },
+    {
+      "id": 18,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:08:34.033Z"
+    },
+    {
+      "id": 19,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:08:41.450Z"
+    },
+    {
+      "id": 20,
+      "action": "UPDATE_PROJECT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:09:00.847Z"
+    },
+    {
+      "id": 21,
+      "action": "UPDATE_PROJECT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:09:05.510Z"
+    },
+    {
+      "id": 22,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:12:17.114Z"
+    },
+    {
+      "id": 23,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:12:24.524Z"
+    },
+    {
+      "id": 24,
+      "action": "MFA_ENABLE",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:13:44.844Z"
+    },
+    {
+      "id": 25,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:14:22.261Z"
+    },
+    {
+      "id": 26,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:14:44.482Z"
+    },
+    {
+      "id": 27,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:17:45.367Z"
+    },
+    {
+      "id": 28,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:18:07.972Z"
+    },
+    {
+      "id": 29,
+      "action": "MFA_DISABLE",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:18:15.872Z"
+    },
+    {
+      "id": 30,
+      "action": "REGISTER",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:19:09.990Z"
+    },
+    {
+      "id": 31,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:19:15.028Z"
+    },
+    {
+      "id": 32,
+      "action": "LOGIN",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:19:23.869Z"
+    },
+    {
+      "id": 33,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:19:42.407Z"
+    },
+    {
+      "id": 34,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "PENDING"
+      },
+      "timestamp": "2026-11-25T23:19:54.754Z"
+    },
+    {
+      "id": 35,
+      "action": "MFA_ENABLE",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:23:28.705Z"
+    },
+    {
+      "id": 36,
+      "action": "LOGOUT",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:25:05.080Z"
+    },
+    {
+      "id": 37,
+      "action": "LOGIN",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:28:07.234Z"
+    },
+    {
+      "id": 38,
+      "action": "LOGOUT",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:32:01.345Z"
+    },
+    {
+      "id": 39,
+      "action": "LOGIN",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:32:42.172Z"
+    },
+    {
+      "id": 40,
+      "action": "LOGOUT",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:34:33.846Z"
+    },
+    {
+      "id": 41,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:34:43.908Z"
+    },
+    {
+      "id": 42,
+      "action": "DELETE_PROJECT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:34:58.373Z"
+    },
+    {
+      "id": 43,
+      "action": "CREATE_PROJECT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:35:10.341Z"
+    },
+    {
+      "id": 44,
+      "action": "REGISTER",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:35:36.194Z"
+    },
+    {
+      "id": 45,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:35:45.993Z"
+    },
+    {
+      "id": 46,
+      "action": "LOGIN",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:35:55.134Z"
+    },
+    {
+      "id": 47,
+      "action": "UPDATE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:36:09.527Z"
+    },
+    {
+      "id": 48,
+      "action": "UPDATE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:36:13.305Z"
+    },
+    {
+      "id": 49,
+      "action": "CREATE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 2
+      },
+      "timestamp": "2026-11-25T23:37:02.697Z"
+    },
+    {
+      "id": 50,
+      "action": "DELETE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 2
+      },
+      "timestamp": "2026-11-25T23:37:07.193Z"
+    },
+    {
+      "id": 51,
+      "action": "CREATE_TASK",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 2,
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:37:38.598Z"
+    },
+    {
+      "id": 52,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 2,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:37:51.143Z"
+    },
+    {
+      "id": 53,
+      "action": "DELETE_TASK",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 2
+      },
+      "timestamp": "2026-11-25T23:37:58.396Z"
+    },
+    {
+      "id": 54,
+      "action": "LOGOUT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:38:00.561Z"
+    },
+    {
+      "id": 55,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:39:07.940Z"
+    },
+    {
+      "id": 56,
+      "action": "LOGIN",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:39:38.783Z"
+    },
+    {
+      "id": 57,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:40:26.413Z"
+    },
+    {
+      "id": 58,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "COMPLETED"
+      },
+      "timestamp": "2026-11-25T23:40:30.880Z"
+    },
+    {
+      "id": 59,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:40:35.571Z"
+    },
+    {
+      "id": 60,
+      "action": "LOGOUT",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:40:48.322Z"
+    },
+    {
+      "id": 61,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:40:53.672Z"
+    },
+    {
+      "id": 62,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:40:57.583Z"
+    },
+    {
+      "id": 63,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:40:57.840Z"
+    },
+    {
+      "id": 64,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:40:58.000Z"
+    },
+    {
+      "id": 65,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:40:58.142Z"
+    },
+    {
+      "id": 66,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:40:58.280Z"
+    },
+    {
+      "id": 67,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:05.601Z"
+    },
+    {
+      "id": 68,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:06.090Z"
+    },
+    {
+      "id": 69,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:06.234Z"
+    },
+    {
+      "id": 70,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:11.036Z"
+    },
+    {
+      "id": 71,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:11.606Z"
+    },
+    {
+      "id": 72,
+      "action": "LOGIN",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:43:23.500Z"
+    },
+    {
+      "id": 73,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:35.728Z"
+    },
+    {
+      "id": 74,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:36.179Z"
+    },
+    {
+      "id": 75,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:36.329Z"
+    },
+    {
+      "id": 76,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:40.398Z"
+    },
+    {
+      "id": 77,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:40.673Z"
+    },
+    {
+      "id": 78,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:40.833Z"
+    },
+    {
+      "id": 79,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:40.999Z"
+    },
+    {
+      "id": 80,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:41.153Z"
+    },
+    {
+      "id": 81,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:51.950Z"
+    },
+    {
+      "id": 82,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:52.422Z"
+    },
+    {
+      "id": 83,
+      "action": "LOGIN",
+      "userId": null,
+      "ip": "::1",
+      "result": "failure",
+      "timestamp": "2026-11-25T23:43:52.581Z"
+    },
+    {
+      "id": 84,
+      "action": "LOGIN",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:44:40.287Z"
+    },
+    {
+      "id": 85,
+      "action": "LOGOUT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:44:52.343Z"
+    },
+    {
+      "id": 86,
+      "action": "LOGIN",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:45:18.458Z"
+    },
+    {
+      "id": 87,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "PENDING"
+      },
+      "timestamp": "2026-11-25T23:46:23.905Z"
+    },
+    {
+      "id": 88,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:46:25.029Z"
+    },
+    {
+      "id": 89,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "COMPLETED"
+      },
+      "timestamp": "2026-11-25T23:46:25.763Z"
+    },
+    {
+      "id": 90,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:46:33.164Z"
+    },
+    {
+      "id": 91,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "PENDING"
+      },
+      "timestamp": "2026-11-25T23:46:37.271Z"
+    },
+    {
+      "id": 92,
+      "action": "LOGOUT",
+      "userId": 2,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:46:43.857Z"
+    },
+    {
+      "id": 93,
+      "action": "LOGOUT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:47:27.833Z"
+    },
+    {
+      "id": 94,
+      "action": "LOGIN",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:48:13.133Z"
+    },
+    {
+      "id": 95,
+      "action": "UPDATE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:49:09.842Z"
+    },
+    {
+      "id": 96,
+      "action": "UPDATE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:49:16.456Z"
+    },
+    {
+      "id": 97,
+      "action": "CREATE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 2
+      },
+      "timestamp": "2026-11-25T23:49:26.582Z"
+    },
+    {
+      "id": 98,
+      "action": "UPDATE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 2
+      },
+      "timestamp": "2026-11-25T23:49:29.277Z"
+    },
+    {
+      "id": 99,
+      "action": "DELETE_PROJECT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 2
+      },
+      "timestamp": "2026-11-25T23:49:31.587Z"
+    },
+    {
+      "id": 100,
+      "action": "CREATE_TASK",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 2,
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:49:40.188Z"
+    },
+    {
+      "id": 101,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 2,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:49:42.459Z"
+    },
+    {
+      "id": 102,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:49:46.508Z"
+    },
+    {
+      "id": 103,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "PENDING"
+      },
+      "timestamp": "2026-11-25T23:49:47.265Z"
+    },
+    {
+      "id": 104,
+      "action": "DELETE_TASK",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 2
+      },
+      "timestamp": "2026-11-25T23:49:49.914Z"
+    },
+    {
+      "id": 105,
+      "action": "LOGOUT",
+      "userId": 3,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:49:51.450Z"
+    },
+    {
+      "id": 106,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:50:07.476Z"
+    },
+    {
+      "id": 107,
+      "action": "CREATE_PROJECT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 2
+      },
+      "timestamp": "2026-11-25T23:50:24.911Z"
+    },
+    {
+      "id": 108,
+      "action": "UPDATE_PROJECT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 2
+      },
+      "timestamp": "2026-11-25T23:50:29.255Z"
+    },
+    {
+      "id": 109,
+      "action": "DELETE_PROJECT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "projectId": 2
+      },
+      "timestamp": "2026-11-25T23:50:31.462Z"
+    },
+    {
+      "id": 110,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "IN_PROGRESS"
+      },
+      "timestamp": "2026-11-25T23:50:39.647Z"
+    },
+    {
+      "id": 111,
+      "action": "CREATE_TASK",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 2,
+        "projectId": 1
+      },
+      "timestamp": "2026-11-25T23:50:48.132Z"
+    },
+    {
+      "id": 112,
+      "action": "DELETE_TASK",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 2
+      },
+      "timestamp": "2026-11-25T23:50:50.569Z"
+    },
+    {
+      "id": 113,
+      "action": "REGISTER",
+      "userId": 4,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:51:24.425Z"
+    },
+    {
+      "id": 114,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:51:30.894Z"
+    },
+    {
+      "id": 115,
+      "action": "LOGIN",
+      "userId": 4,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:51:39.677Z"
+    },
+    {
+      "id": 116,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 4,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "PENDING"
+      },
+      "timestamp": "2026-11-25T23:51:59.674Z"
+    },
+    {
+      "id": 117,
+      "action": "UPDATE_TASK_STATUS",
+      "userId": 4,
+      "ip": "::1",
+      "result": "success",
+      "details": {
+        "taskId": 1,
+        "status": "COMPLETED"
+      },
+      "timestamp": "2026-11-25T23:52:04.532Z"
+    },
+    {
+      "id": 118,
+      "action": "LOGOUT",
+      "userId": 4,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:52:11.982Z"
+    },
+    {
+      "id": 119,
+      "action": "LOGIN",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:58:05.076Z"
+    },
+    {
+      "id": 120,
+      "action": "LOGOUT",
+      "userId": 1,
+      "ip": "::1",
+      "result": "success",
+      "timestamp": "2026-11-25T23:58:08.096Z"
+    }
+  ]
+}
