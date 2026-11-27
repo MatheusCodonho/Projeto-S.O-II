@@ -3,13 +3,19 @@ const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const { port, nodeEnv, isProduction, corsOrigin } = require('./config/env');
+const { initialize } = require('./data/store');
+const path = require('path');
+
+// Inicializa o store (Neon PG em produção, arquivo local em dev) ANTES de carregar rotas
+// Isso garante que os controllers tenham acesso aos dados corretos
+await initialize();
+
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const dashboardController = require('./controllers/dashboardController');
 const { authenticate } = require('./middleware/auth');
 
-const path = require('path');
 const app = express();
 
 // Security headers
@@ -50,13 +56,6 @@ const apiLimiter = rateLimit({
 });
 
 app.use(express.json());
-
-// Garante que o store (Postgres em prod) esteja carregado antes de processar rotas
-const { initialize } = require('./data/store');
-app.use(async (req, res, next) => {
-  try { await initialize(); } catch (err) { console.error('Store init error:', err.message); }
-  next();
-});
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Apply rate limiting
