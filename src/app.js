@@ -25,6 +25,9 @@ const { authenticate } = require('./middleware/auth');
 
 const app = express();
 
+// Trust proxy para rate limiting funcionar atrás do proxy do Vercel
+app.set('trust proxy', 1);
+
 // Security headers
 app.use(helmet({
   contentSecurityPolicy: false,
