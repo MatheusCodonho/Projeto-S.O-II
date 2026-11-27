@@ -229,6 +229,12 @@ if (isTestEnv || !isProductionEnv) {
   initialized = true;
 }
 
+function resetMemoryCache() {
+  memoryCache = null;
+  initialized = false;
+  initPromise = null;
+}
+
 module.exports = {
   get users() { return getData().users; },
   get projects() { return getData().projects; },
@@ -238,6 +244,7 @@ module.exports = {
   persist,
   persistSync,
   reset,
+  resetMemoryCache,
   initialize,
   _loadFromFile: loadFromFile,
   _saveToFile: saveToFile,
