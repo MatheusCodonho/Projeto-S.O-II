@@ -7,8 +7,15 @@ const { initialize } = require('./data/store');
 const path = require('path');
 
 // Inicializa o store (Neon PG em produção, arquivo local em dev) ANTES de carregar rotas
-// Isso garante que os controllers tenham acesso aos dados corretos
-await initialize();
+// Usa IIFE assíncrona pois CommonJS não suporta top-level await
+(async () => {
+  try {
+    await initialize();
+    console.log('Store initialized successfully');
+  } catch (err) {
+    console.error('Store initialization failed:', err.message);
+  }
+})();
 
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
