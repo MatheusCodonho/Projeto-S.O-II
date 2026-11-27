@@ -18,7 +18,11 @@ async function getSql() {
   if (isPostgres) {
     try {
       const neonModule = await import('@neondatabase/serverless');
-      const neon = neonModule.default || neonModule;
+      // @neondatabase/serverless exporta a função neon como default
+      const neon = neonModule.default || neonModule.neon;
+      if (typeof neon !== 'function') {
+        throw new Error('Neon export não é uma função: ' + typeof neon);
+      }
       sql = neon(databaseUrl);
       return sql;
     } catch (err) {
