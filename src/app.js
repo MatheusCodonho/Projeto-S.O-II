@@ -50,6 +50,13 @@ const apiLimiter = rateLimit({
 });
 
 app.use(express.json());
+
+// Garante que o store (Postgres em prod) esteja carregado antes de processar rotas
+const { initialize } = require('./data/store');
+app.use(async (req, res, next) => {
+  try { await initialize(); } catch (err) { console.error('Store init error:', err.message); }
+  next();
+});
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Apply rate limiting
