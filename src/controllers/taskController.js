@@ -23,9 +23,10 @@ function log(action, userId, ip, result, details) {
 const taskController = {
   create: (req, res) => {
     const { projectId, title, description, assignedTo } = req.body;
-    if (!projectId || !title) return res.status(400).json({ error: 'Projeto e título são obrigatórios' });
+    const pid = parseInt(projectId);
+    if (!pid || !title) return res.status(400).json({ error: 'Projeto e título são obrigatórios' });
 
-    const project = projects.find(p => p.id === projectId);
+    const project = projects.find(p => p.id === pid);
     if (!project) return res.status(404).json({ error: 'Projeto não encontrado' });
 
     const task = new Task({
