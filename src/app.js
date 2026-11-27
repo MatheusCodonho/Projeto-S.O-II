@@ -3,19 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const { port, nodeEnv, isProduction, corsOrigin } = require('./config/env');
-const { initialize } = require('./data/store');
 const path = require('path');
-
-// Inicializa o store (Neon PG em produção, arquivo local em dev) ANTES de carregar rotas
-// Usa IIFE assíncrona pois CommonJS não suporta top-level await
-(async () => {
-  try {
-    await initialize();
-    console.log('Store initialized successfully');
-  } catch (err) {
-    console.error('Store initialization failed:', err.message);
-  }
-})();
 
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
@@ -27,6 +15,22 @@ const app = express();
 
 // Trust proxy para rate limiting funcionar atrás do proxy do Vercel
 app.set('trust proxy', 1);
+
+// Middleware que garante inicialização do store antes de cada request
+// (resolve race condition em serverless: primeira request chega antes do init terminar)
+const { initialize } = require('./data/store');
+let storeReady = false;
+app.use(async (req, res, next) => {
+  if (!storeReady) {
+    try {
+      await initialize();
+      storeReady = true;
+    } catch (err) {
+      console.error('Store init error:', err.message);
+    }
+  }
+  next();
+});
 
 // Security headers
 app.use(helmet({
